@@ -14,7 +14,8 @@ const btnClass = computed(() => {
 </script>
 
 <template>
-  <button class="rounded-full text-xl lg:text-3xl p-5 lg:w-20 lg:h-20 w-11 h-11 flex justify-center items-center"
+  <button
+    class="rounded-full text-base sm:text-xl lg:text-3xl p-3 sm:p-4 lg:p-5 w-14 h-14 sm:w-16 sm:h-16 lg:w-20 lg:h-20 flex justify-center items-center transition-all duration-150"
     :class="btnClass">
     <slot />
   </button>

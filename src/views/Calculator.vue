@@ -78,13 +78,18 @@ onUnmounted(() => {
   window.removeEventListener('keydown', handleKeydown)
 })
 </script>
+
 <template>
   <div class="flex justify-center items-center">
-    <div class="grid gap-y-4 border border-gray-400 rounded-4xl p-5">
-      <div ref="resultDisplay" class="text-right text-5xl max-w-[368px] overflow-y-scroll py-4">
+    <div class="grid gap-y-4 border border-gray-400 rounded-4xl p-4 sm:p-6 md:p-4 w-full max-w-[400px]">
+      <!-- 顯示結果 -->
+      <div ref="resultDisplay"
+        class="text-right text-3xl sm:text-4xl md:text-5xl max-h-[100px] overflow-y-auto py-4 break-words">
         {{ formatWithCommas(displayExpression) || '0' }}
       </div>
-      <div class=" grid grid-cols-4 gap-4">
+
+      <!-- 按鈕區域 -->
+      <div class="grid grid-cols-4 gap-2 sm:gap-4 justify-items-center">
         <CalculatorBtn v-for="btn in calculatorButtons" :key="btn.label" :icon="btn.label" :type="btn.type"
           @click="handleClick(btn.label)">
           {{ btn.label }}

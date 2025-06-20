@@ -1,18 +1,19 @@
 <template>
-  <main class="transition-all bg-white text-black dark:bg-gray-900 dark:text-white min-h-screen flex flex-col">
-    <!-- Header Section -->
-    <header v-if="$slots.header" class="shadow-md">
-      <slot name="header"></slot>
+  <main class="transition-all bg-white text-black dark:bg-gray-900 dark:text-white flex flex-col">
+    <!-- Header -->
+    <header v-if="$slots.header" class="max-h-14 shadow-md px-4 sm:px-6 lg:px-8 bg-white dark:bg-gray-900">
+      <slot name="header" />
     </header>
 
-    <!-- Main Content Section -->
-    <div class="flex-1 container mx-auto p-4">
-      <slot></slot>
+    <!-- Main -->
+    <div class="flex-1 min-h-screen w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <slot />
     </div>
 
-    <!-- Footer Section -->
-    <footer v-if="$slots.footer" class="mt-auto bg-gray-100 dark:bg-gray-800 py-4">
-      <slot name="footer"></slot>
+    <!-- Footer -->
+    <footer v-if="$slots.footer"
+      class="mt-auto bg-gray-100 dark:bg-gray-800 text-sm text-center text-gray-600 dark:text-gray-300 py-4">
+      <slot name="footer" />
     </footer>
   </main>
 </template>
