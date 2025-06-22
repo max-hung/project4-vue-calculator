@@ -29,13 +29,13 @@ export function useCalculator() {
    * 計算結果
    */
   function calculateResult() {
-    // 替換乘除符號為 JS 可辨識格式（如 2×3 → 2*3）
+    // 替換乘除符號為 JS 可辨識格式（如 2×3 => 2*3）
     let expr = expression.value.replace(/×/g, '*').replace(/÷/g, '/');
 
-    // 移除數字前面的多餘零（如 '003' → '3'；'-00042' → '-42'）
+    // 移除數字前面的多餘零（如 '003' => '3'；'-00042' => '-42'）
     expr = expr.replace(/\b(-?)0+(\d)/g, '$1$2');
 
-    // 處理單一百分比數值（如：'50%' → '0.5'）
+    // 處理單一百分比數值（如：'50%' => '0.5'）
     if (!expr && currentInput.value.endsWith('%')) {
       const num = parseFloat(currentInput.value.replace('%', ''));
       if (!isNaN(num)) {
@@ -55,7 +55,7 @@ export function useCalculator() {
 
     if (!expr) return;
 
-    // 若結尾是運算符，補上 lastOperand，例如：'3+' → '3+5'
+    // 若結尾是運算符，補上 lastOperand，例如：'3+' => '3+5'
     // 正則說明：/[+\-*/]$/ 匹配結尾為 + - * /
     if (/[+\-*/]$/.test(expr)) {
       if (lastOperand.value) expr += lastOperand.value;
@@ -66,18 +66,19 @@ export function useCalculator() {
       expr = replacePercentages(expr); //  處理運算式中帶 '%' 的部分
 
       // 儲存最後的運算式與操作數（支援連續按 =）
-      // 範例：'2+5%' → ['+','5%']；'2×(-3)' → ['×','(-3)']
+      // 範例：'2+5%' => ['+','5%']；'2×(-3)' => ['×','(-3)']
       const raw = expression.value;
-      const match = raw.match(/([+\-×÷])(\(?-?\d+\.?\d*%?\)?)/);
-      // ([+\-×÷])          → 匹配運算符
-      // (\(?-?\d+\.?\d*%?\)?) → 匹配可能有括號的數字，可含負號、小數、百分比
+      const match = raw.match(/([+\-×÷])(\(?-?\d+\.?\d*%?\)?)(?!.*[+\-×÷])/);
+
+      // ([+\-×÷]) => 匹配運算符
+      // (\(?-?\d+\.?\d*%?\)?) => 匹配可能有括號的數字，可含負號、小數、百分比
       if (match) {
         lastOperator.value = match[1];
         lastOperand.value = match[2];
       }
 
       // 若運算式不完整（例如 '1+', '5.') 則視為錯誤
-      // 如果結尾是小數點，補上 0（例如：'6.' → '6.0'）
+      // 如果結尾是小數點，補上 0（例如：'6.' => '6.0'）
       if (/[+\-*/.]$/.test(expr)) {
         if (expr.endsWith('.')) {
           expr += '0';
@@ -114,7 +115,7 @@ export function useCalculator() {
       return;
     }
 
-    // 取得最後一段（例如：'1+2.3' → '2.3'）
+    // 取得最後一段（例如：'1+2.3' => '2.3'）
     const parts = expression.value.split(/([+\-×÷])/);
     const lastPart = parts[parts.length - 1];
     if (lastPart.includes('.')) return;
@@ -138,7 +139,7 @@ export function useCalculator() {
       return;
     }
 
-    //  分析出最後的運算元（例如：'1+2' → '2'；'5×(-3)' → '(-3)'）
+    //  分析出最後的運算元（例如：'1+2' => '2'；'5×(-3)' => '(-3)'）
     const match = expression.value.match(/^(.*?)([+\-×÷])?(\(?-?\d+\.?\d*\)?)$/);
     if (!match) return;
 
@@ -152,7 +153,7 @@ export function useCalculator() {
    * 百分比轉換
    */
   function applyPercentage() {
-    // 匹配最後的數字（不含符號）'100+20' → '20' → '20%' → 100+20%
+    // 匹配最後的數字（不含符號）'100+20' => '20' => '20%' => 100+20%
     const match = expression.value.match(/(\d+\.?\d*)$/);
 
     if (!match) {
